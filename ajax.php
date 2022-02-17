@@ -121,9 +121,8 @@ function verifyCredential() {
 	curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
 
 
-	curl_setopt( $ch, CURLOPT_POSTFIELDS, "{\"attributes\":[{\"attributeNames\":[\"Identifier\",\"Role\"],\"policyName\":\"Credenziale\"}],\"revocationRequirement\":{\"validAt\":\"" . $data . "\"},\"name\":\"Credenziale\",\"version\":\"1.0.0\"}" );
-
-
+	curl_setopt( $ch, CURLOPT_POSTFIELDS, "{\"attributes\": [{\"attributeNames\": [\"Identifier\",\"Role\"],\"policyName\": \"credential\"}],\"name\": \"credential\",\"version\": \"1.0.0\"}");
+	
 	$headers   = array();
 	$headers[] = 'Accept: text/plain';
 	$headers[] = 'Authorization: Bearer ' . ACCESS_TOKEN;

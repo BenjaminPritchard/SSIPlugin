@@ -15,7 +15,7 @@
 </head>
 
 <body>
-<p class="container center">Self Sovereign Identity</p>
+<p class="container center">Please login using your Trinsic Wallet</p>
 <div class="container">
     <div class="d-flex flex-column">
 <?php
@@ -24,12 +24,8 @@
     //var_dump($_SERVER);
 ?>
 <?php $ruolo =  get_option("default_role"); ?>
-        <button onclick="createAndOfferCredential('<?php $bytes = random_bytes( 5 );
-		echo bin2hex( $bytes ); ?>', '<?php echo $ruolo; ?>')"
-                type="button" class="btn btn-outline-primary btn-block ">Registrazione <?php echo $ruolo; ?>
-        </button>
         <button onclick="verifyCredential();" type="button"
-                class="btn btn-outline-primary btn-block">Autenticazione
+                class="btn btn-outline-primary btn-block">Authenticate
         </button>
         <img width="370" height="370" class="qrcode" src="" alt="" style="display: none">
         <div class="testo center">
