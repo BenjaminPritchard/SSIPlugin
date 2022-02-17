@@ -1,23 +1,40 @@
-# WordPress SSI Plugin
+# Random Notes
 
-This is a fork of https://github.com/Associazione-Blockchain-Italia/SSIPlugin 
+This is a fork of https://github.com/Associazione-Blockchain-Italia/SSIPlugin , slightly modified to fit my specific use case.
 
-I changed it to remove the ability to issue a credential, and to allow verification only.
+I worked with this plugin as a proof of concept. I wanted to see if it could be used to restrict access to a certain page on my website, using my preferred workflow.
+
+That workflow is as follows:
+
+- Users cannot access my videos page without verifying using a Trinsic wallet.
+- Users can only get a credential from me, that I issue manually in Trinsic Studio and then email to them.
+- Protecting the actual video page is done using a different plugin, `Password Protect Pages`. 
+- When the user hits the protected (video) page, `Password Protect Pages` is setup to redirect to `pluginform.php` in here if they are not logged in already.
+- The point of this plugin is to request a credential from the user, and if it is valid, then log the user into Wordpress using the value the attribute `Identifier` in the credential presentation.
+- It is not possible for users to sign up by themselves.
+
+Misc Notes:
+
+I changed this plugin to remove the ability to issue a credential; now it allow verification only.
 
 The idea is to prevent a user from seeing a certain page unless they are logged into Wordpress. To accomplish
 this I used "Password Protect Pages" which is configured to redirect to `pluginform.php` when no WP user is logged in.
 
-`pluginform.php` is the page inside of this plugin, and calls 
+`pluginform.php` is the page inside of this plugin, and calls https://api.trinsic.id/credentials/v1/verifications/policy 
+to create a connectionless verification using the attributes: `role` and `Identifier`. 
 
-Once the credential is verified, the user is logged in using the wp_signon() function and then is redirected to the restriced page.
+Once that is done, https://api.trinsic.id/credentials/v1/verifications/ is polled looking for the verification state to become "Accepted". When that happens, a  user is logged in using the `wp_signon()` function and then is redirected to a (hard-coded) restricted page. (NOTE: this is a hack, and should at least be customizable.)
+
+Note that a WP user should be setup in advance, and must have their password set to match what is in `authenticateUser()` in this plugin.
+
+Make sure to have created a Credential Template in Trinsic Studio containing the fields `Identifier` and `Role`.  Then issue the credential via email to someone, filling out the `role` and `identifier` attributes.
+
+(The `role` doesn't matter, but set the `identifier` to the userID (not username) of the WP user to log in.)
 
 I also changed some of the text to be in English instead of Italian.
 
-To actually issue the credential, I just used Trinsic Studio to create a Credential Template containing the fields `Identifier` and `Role`.
 
-The `role` doesn't matter, but set the `identifier` to the userID of the WP user to log in.
-
-Just for now, I also hardcoded the plugin to redirect to the restricted page after the credential is verified.
+The original text follows below:
 
 
 ## Introduction
